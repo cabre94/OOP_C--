@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ struct Complex{
     friend istream& operator >> (istream &in,  Complex &c);
 	
 };
+
 
 
 Complex Complex::operator+(Complex a){
@@ -74,10 +76,8 @@ istream& operator >>(istream &in,  Complex &c){
 	return in;
 }
 
-
-
-
 int main(){
+
 	Complex c1, c2, c3;
 
 	cin >> c1;
