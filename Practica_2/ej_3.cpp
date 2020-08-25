@@ -19,6 +19,9 @@ Description:
 #include <sstream>
 #include <cstdlib>
 
+#define MAX_SIZE 10000
+
+
 template <class T>
 class Stack{
     T *v;
@@ -26,12 +29,41 @@ class Stack{
 public:
     class Underflow {};
     class Overflow {};
+    class Bad_size {};
     
     Stack(int size);
     ~Stack();
 
     void push(T);
     T pop();
+};
 
-
+template<class T>
+Stack<T>::Stack(int size){
+    if(size > MAX_SIZE)
+        throw Bad_size{};
+    max_size = size;
+    top = 0;
+    v = new T[size];
 }
+
+template<class T>
+Stack<T>::~Stack(){
+    delete [] v;
+}
+
+template<class T>
+void Stack<T>::push(T t){
+    if(top == max_size)
+        throw Overflow{};
+    v[top++] = t;
+}
+
+template<class T>
+T Stack<T>::pop(){
+    if(top == 0)
+        throw Underflow{};
+    return v[--top];
+}
+
+
