@@ -38,6 +38,7 @@ public:
     T pop();
     int getTop(){return top;}
 
+    // Sobrecargo <<. Es posible que para tipos de datos 'raros' falle.
     template<class H>
     friend std::ostream& operator<<(std::ostream &out, Stack<H> &s);
 };
