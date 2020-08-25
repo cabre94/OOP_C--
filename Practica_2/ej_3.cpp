@@ -21,7 +21,6 @@ Description:
 
 #define MAX_SIZE 10000
 
-
 template <class T>
 class Stack{
     T *v;
@@ -36,7 +35,6 @@ public:
 
     void push(T);
     T pop();
-    int getTop(){return top;}
 
     // Sobrecargo <<. Es posible que para tipos de datos 'raros' falle.
     template<class H>
@@ -74,18 +72,16 @@ T Stack<T>::pop(){
 template<class U>
 //std::ostream& operator<<(ostream &out, Stack &s);
 std::ostream& operator<<(std::ostream &out, Stack<U> &s){
-    int top = s.getTop();
-    if(top == 0){
+    if(s.top == 0){
         out << "Stack is Empty";
     }else{
         int i;
-        for(i=0; i < top-1; i++)
+        for(i=0; i < s.top-1; i++)
             out << s.v[i] << " -> ";
         out << s.v[i];
     }
     return out;
 }
-
 
 
 int main(int argc, const char** argv) {
