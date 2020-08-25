@@ -36,6 +36,10 @@ public:
 
     void push(T);
     T pop();
+    int getTop(){return top;}
+
+    template<class H>
+    friend std::ostream& operator<<(std::ostream &out, Stack<H> &s);
 };
 
 template<class T>
@@ -66,4 +70,43 @@ T Stack<T>::pop(){
     return v[--top];
 }
 
+template<class U>
+//std::ostream& operator<<(ostream &out, Stack &s);
+std::ostream& operator<<(std::ostream &out, Stack<U> &s){
+    int top = s.getTop();
+    if(top == 0){
+        out << "Stack is Empty";
+    }else{
+        int i;
+        for(i=0; i < top-1; i++)
+            out << s.v[i] << " -> ";
+        out << s.v[i];
+    }
+    return out;
+}
 
+
+
+int main(int argc, const char** argv) {
+
+    std::cout << "Creo un stack y lo imprimo:" << std::endl;
+
+    Stack<int> s(100);
+    std::cout << s << std::endl;
+
+    srand(time(NULL));
+
+    std::cout << "Meto algunos valores al azar e imprimo el Stack:" << std::endl;
+    for(int i=0; i < 10; i++)
+        s.push(rand() % 100);
+    std::cout << s << std::endl;
+
+    std::cout << "Saco un par de valores:" << std::endl;
+    for(int i=0; i<5; i++)
+        std::cout << "Saco: " << s.pop() << std::endl;
+    
+    std::cout << "Imprimo lo que quedo en el Stack:" << std::endl;
+    std::cout << s << std::endl;
+
+    return 0;
+}
