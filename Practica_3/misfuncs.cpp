@@ -18,3 +18,15 @@ void deBase10A(int num, int b){
         deBase10A(num/b, b);
     printDigit(num % b);
 }
+
+
+/*
+Otras funciones
+*/
+
+#include "misfuncs.h"
+
+/* 
+Implementacion de Stack del ejercicio 3 de la guia 2.
+*/
+
