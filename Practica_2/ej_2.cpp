@@ -19,11 +19,18 @@ Description:
 #include <sstream>
 #include <cstdlib>
 
-class prueba{
-    int fun(){
-        return 0;
-    }
+int fun(){
+    return 0;
+}
+
+class Prueba{
+public:
+    int fun();
 };
+
+int Prueba::fun(){
+    return 0;
+}
 
 // Compilar usando g++ -c namefile.cpp
 // Compilar usando gcc -c namefile.c
