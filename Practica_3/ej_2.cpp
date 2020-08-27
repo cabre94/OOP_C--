@@ -20,21 +20,21 @@ Description:
 #include <cstdlib>
 
 unsigned long long int fibonacci(bool reset = false){
-    static unsigned long long int f1 = 1, f2 = 1;
+    static unsigned long long int f1 = 0, f2 = 1;
     if(reset){
-        f1 = 1;
+        f1 = 0;
         f2 = 1;        
     }else{
         unsigned long long int aux = f2 + f1;
         f1 = f2;
         f2 = aux;
     }
-    return f2;
+    return f1;
 }
 
 int main(int argc, const char** argv) {
 
-    for(int i=2; i<100; i++){
+    for(int i=1; i<100; i++){
         std::cout << "Iteracion " << i << "-esima: " << fibonacci() << std::endl;
         if(i == 50)
             fibonacci(true);
