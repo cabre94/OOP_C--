@@ -26,7 +26,7 @@ public:
     Messege(std::string);
     void print();
     void print(std::string);
-    //void print(std::string str1=""); //Creo que la idea es ver que seria mas piola hacer esto
+    //void print(std::string str1=""); //Creo que la idea es ver que seria mejor hacer algo como esto
 };
 
 Messege::Messege(std::string str_="KK"){
@@ -41,7 +41,7 @@ void Messege::print(std::string str1){
     std::cout << str + str1 << std::endl;
 }
 
-// Creo que la idea es ver que seria mas piola hacer esto
+// Creo que la idea es ver que seria mejor hacer algo como esto
 /*
 void Messege::print(std::string str1=""){
     std::cout << str + str1 << std::endl;
@@ -51,6 +51,6 @@ void Messege::print(std::string str1=""){
 int main(int argc, const char** argv) {
     Messege s;
     s.print();
-    s.print("Negra");
+    s.print(" y +KK");
     return 0;
 }
