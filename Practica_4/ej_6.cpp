@@ -19,8 +19,7 @@ Description:
 #include <sstream>
 #include <cstdlib>
 
-//#define MAX_SIZE 10000
-int MAX_SIZE = 10000;
+#define MAX_SIZE 10000
 
 template <class T>
 class Stack{
@@ -31,7 +30,8 @@ public:
     class Overflow {};
     class Bad_size {};
     
-    Stack(int size = 0);
+    Stack(int size = MAX_SIZE);
+    Stack(T *,int);
     ~Stack();
 
     void push(T);
@@ -52,6 +52,16 @@ Stack<T>::Stack(int size){
     top = 0;
     v = new T[size];
 }
+
+template<class T>
+Stack<T>::Stack(T *ptrT, int sizeT){
+    max_size = sizeT;
+    top = 0;
+    v = new T[sizeT];
+    for(int i=0; i<sizeT; i++)
+        push(ptrT[i]);
+}
+
 
 template<class T>
 Stack<T>::~Stack(){
@@ -86,19 +96,12 @@ std::ostream& operator<<(std::ostream &out, Stack<U> &s){
     return out;
 }
 
-int main(int argc, const char** argv) {
 
+int main(int argc, const char** argv){
 
+    std::cout << "Creo un stack con el constructor por defecto y lo imprimo:" << std::endl;
 
     Stack<int> s;
-
-    std::cout << s.getTop() << std::endl;
-
-    /*
-
-    std::cout << "Creo un stack y lo imprimo:" << std::endl;
-
-    Stack<int> s(100);
     std::cout << s << std::endl;
 
     srand(time(NULL));
@@ -115,7 +118,22 @@ int main(int argc, const char** argv) {
     std::cout << "Imprimo lo que quedo en el Stack:" << std::endl;
     std::cout << s << std::endl;
 
-    */
+    // Ahora con el Stack de strings
+
+    std::string str[] = {"ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STX"};
+
+    std::cout << "Creo un Stack de strings, dandole un array de strings" << std::endl;
+    Stack<std::string> ss(str,7);
+
+    std::cout << "Lo imprimo" << std::endl;
+    std::cout << ss << std::endl;
+
+    std::cout << "Saco un par de valores:" << std::endl;
+    for(int i=0; i<3; i++)
+        std::cout << "Saco: " << ss.pop() << std::endl;
+    
+    std::cout << "Imprimo lo que quedo en el Stack:" << std::endl;
+    std::cout << ss << std::endl;
 
     return 0;
 }
