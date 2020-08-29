@@ -34,10 +34,13 @@ unsigned long long int fibonacci(bool reset = false){
 
 int main(int argc, const char** argv) {
 
-    for(int i=1; i<100; i++){
-        std::cout << "Iteracion " << i << "-esima: " << fibonacci() << std::endl;
-        if(i == 50)
-            fibonacci(true);
-    }
+    for(int i=1; i<=50; i++)
+        std::cout << "Termino " << i << "-esimo: " << fibonacci() << std::endl;
+    
+    std::cout << "Reseteo y vuelvo a imprimir 20 terminos" << std::endl;
+    fibonacci(true);
+    for(int i=0; i<=20; i++)
+        std::cout << "Termino " << i << "-esimo: " << fibonacci() << std::endl;
+
     return 0;
 }
