@@ -25,8 +25,3 @@ Otras funciones
 */
 
 #include "misfuncs.h"
-
-/* 
-Implementacion de Stack del ejercicio 3 de la guia 2.
-*/
-
