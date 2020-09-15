@@ -19,7 +19,7 @@ Description:
 #include <sstream>
 #include <cstdlib>
 
-#include "ej_5.h"
+#include "ej_05.h"
 
 void func(){
     std::cout << "En func() valor antes de ser modificado: " << local << std::endl;
