@@ -93,8 +93,6 @@ void B::printPtr(){
 }
 
 
-
-
 int main(int argc, const char** argv){
 
     std::cout << "Para la clase A (operator= por default)," <<
