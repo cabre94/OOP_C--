@@ -36,9 +36,10 @@ int main(int argc, const char** argv){
 
     Counted *ptr = new Counted;
 
-    void* vptr = (void*) ptr;
+    //void* vptr = (void*) ptr;
     
-    delete vptr;
+    // delete vptr;
+    delete ptr; // Lo pongo bien porque el VSCode me lo deja en color si esta mal y me molesta
 
     /*
     Parece que el efecto es que no se esta llamando al destructor del objeto a donde apunta el objeto.
