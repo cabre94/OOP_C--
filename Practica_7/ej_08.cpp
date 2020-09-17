@@ -25,8 +25,6 @@ private:
     static const int MAX = 5;
     static int n;
 
-    int x;
-
 public:
     A();
     ~A();
@@ -97,7 +95,7 @@ int main(int argc, const char** argv){
             pptr[i] = new A;
     }
     catch (const std::bad_alloc){
-        std::cout << "Supero la cantidad maxima" << std::endl;
+        std::cout << "Supero la cantidad maxima de instancias" << std::endl;
     }
 
     while(i--)
