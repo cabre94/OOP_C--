@@ -21,21 +21,21 @@ Description:
 class Figura{
 public:
     virtual void dibujar(){
-    // void dibujar(){          // Para ver la diferencia, se puede cambiar por esta linea.
+    // void dibujar(){          // Para ver la diferencia, se puede cambiar por esta linea y sacarle el override al resto
         std::cout << "Figura::dibujar" << std::endl;
     }
 };
 
 class Cuadrado: public Figura{
 public:
-    void dibujar(){
+    void dibujar() override {
         std::cout << "Cuadrado::dibujar" << std::endl;
     }
 };
 
 class Triangulo : public Figura{
 public:
-    void dibujar(){
+    void dibujar() override {
         std::cout << "Triangulo::dibujar" << std::endl;
     }
 };
