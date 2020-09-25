@@ -1,6 +1,6 @@
 /*
 date: 19-09-2020
-File: ej_01.cpp
+File: ej_02.cpp
 Author : Facundo Martin Cabrera
 Email: cabre94@hotmail.com facundo.cabrera@ib.edu.ar
 GitHub: https://github.com/cabre94
@@ -20,10 +20,7 @@ Description:
 
 class Figura{
 public:
-    virtual void dibujar(){
-    // void dibujar(){          // Para ver la diferencia, se puede cambiar por esta linea y sacarle el override al resto
-        std::cout << "Figura::dibujar" << std::endl;
-    }
+    virtual void dibujar() = 0;
 };
 
 class Cuadrado: public Figura{
@@ -44,7 +41,7 @@ public:
 int main(int argc, const char** argv){
     
     Figura* arr[] = {
-        new Figura,
+        //new Figura,
         new Cuadrado,
         new Triangulo,
     };
@@ -56,6 +53,8 @@ int main(int argc, const char** argv){
     
     for(i = i-1; i >= 0; i--)
         delete arr[i];
+    
+    // Figura fail; // error: cannot declare variable ‘fail’ to be of abstract type ‘Figura’
 
     return 0;
 }
