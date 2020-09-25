@@ -18,16 +18,22 @@ Description:
 #include <algorithm>
 #include <sstream>
 
+#include "stack.h"
+
 
 
 class A{
 private:
-    static const int MAX = 5;
-    static int n;
+    static Stack<int> available;
+    static uint8_t buffer[]; 
+
+    // Poner el constructor en privado
+    ~A();
 
 public:
+    static const int MAX = 5;
+
     A();
-    ~A();
 
     A(const A &) = delete;	//Copy constructor
     A(A &&) = delete;	    //Move constructor
@@ -49,57 +55,83 @@ public:
     void* operator new[](size_t, void*) = delete;
     void  operator delete(void*, void*) = delete;
     void  operator delete[](void*, void*) = delete;
+
+    static void destroy(A *a);
+
+    static void initializer();
 };
 
-int A::n = 0;
+namespace {
+    A *heap = nullptr;
+}
+
+// Instancio el buffer
+uint8_t A::buffer[A::MAX * sizeof(A)];
+// Instancio el Stack que tiene los indices 
+Stack<int> A::available = Stack<int>(A::MAX);
+
 
 A::A(){
-    n++;
-    std::cout << "A() "<< this << std::endl;
+    std::cout << "A::A() @ " << this << std::endl;
 }
 
 A::~A(){
-    n--;
-    std::cout << "~A() " << this << std::endl;
+    std::cout << "A::~A() @ " << this << std::endl;
 }
+
+void A::destroy(A *a){
+    delete a;
+}
+
+void A::initializer(){
+    heap = (A *) A::buffer;
+    for(int i=0; i < MAX; i++)
+        A::available.push(i);
+}
+
 
 void* A::operator new(size_t sz){
-    if(n >= MAX){
-        std::cout << "Bad alloc: ";
+    if(available.isEmpty())
         throw std::bad_alloc{};
-    }else{
-        void *m = malloc(sz);
-        std::cout << "Alloco memoria " << m << std::endl;
-        return m;
-    }
+    
+    int index = available.pop();
+    return (A *) buffer + index+sizeof(A);
 }
 
-void  A::operator delete(void* m){
-    if(!n)
-        return;
-    std::cout << "Destruyendo memoria " << m << std::endl;
-    free(m);
+void  A::operator delete(void* a){
+    A *pa = (A *) a;
+    int index = (int) (pa - heap);
+    available.push(index);
 }
+
 
 
 int main(int argc, const char** argv){
-    A kk;
-    A kk2;
+    A::initializer();
 
-    A *pptr[10];
+    const int MAX_REQ = 70;
+    A *ptrs[MAX_REQ];
 
-    int i;
-    
-    try{
-        for(i = 0; i < 10; i++)
-            pptr[i] = new A;
+    int k;
+
+    try {
+        // Loop de alocación por prueba
+        for( k = 0; k < MAX_REQ; ++k )
+            ptrs[k] = new A;
+    } catch( const std::exception &e ) {
+        // Atrapamos cualquier excepción de la STL
+        std::cout << "Exception: " << e.what() << std::endl;
     }
-    catch (const std::bad_alloc){
-        std::cout << "Supero la cantidad maxima de instancias" << std::endl;
-    }
 
-    while(i--)
-        delete pptr[i];
+    // A cuánto llegamos en el loop de alocación
+    std::cout << "Allocamos: " << k << std::endl;
+
+    // Mezclamos el arreglo de punteros allocados para liberarlos
+    // en un orden aleatorio
+    std::random_shuffle(ptrs, &ptrs[k]);
+
+    while( k-- )
+        A::destroy(ptrs[k]);
 
     return 0;
 }
