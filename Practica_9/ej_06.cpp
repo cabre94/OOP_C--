@@ -67,7 +67,7 @@ UniquePtr<T> &UniquePtr<T>::operator=(UniquePtr &&uPtr){
 
 int main(int argc, const char** argv){
 
-    UniquePtr<double> up;       // Le deberia asignar un nullptr
+    UniquePtr<double> up;           // Le deberia asignar un nullptr
     UniquePtr<int> up1(new int);
 
     UniquePtr<int> up2 = std::move(up1);
