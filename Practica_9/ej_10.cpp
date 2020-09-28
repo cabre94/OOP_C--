@@ -18,6 +18,8 @@ Description:
 #include <algorithm>
 #include <sstream>
 
+#define N 8*sizeof(uint64_t)
+
 template<class T>
 class Vector{
 private:
@@ -34,7 +36,7 @@ public:
     Vector &operator=(const Vector &);	//Copy assignment
     Vector &operator=(Vector &&);	    // Move assignment
 
-    T& operator[](int i){return v[i];}
+    T& operator[](int i) const {return v[i];}
 
     // void set(T t, int i);
     int getSize(){return sz;}
@@ -44,7 +46,6 @@ public:
 private:
     void swap(Vector<T> &other);
 };
-
 
 template<class T>
 Vector<T>::~Vector(){
@@ -96,12 +97,78 @@ void Vector<T>::swap(Vector<T> &other){
 //     v[i] = t;
 // }
 
-
 template <class T>
 std::ostream& operator<<(std::ostream &out, Vector<T> &vec){
     for(int i=0; i < vec.sz-1; i++)
         out << vec[i] << " - ";
     out << vec[vec.sz-1];
+    return out;
+}
+
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+
+template<>
+class Vector<bool>{
+private:
+    uint64_t *v;
+    int bits;       // Cantidad de bits
+    int sz;         // Cantidad de elementos de v
+public:
+    Vector() : v(nullptr), bits(0), sz(0) {}
+    Vector(int bits_);
+    ~Vector();
+
+    Vector(const Vector &);	//Copy constructor
+    Vector(Vector &&);	    //Move constructor
+
+    Vector &operator=(const Vector &);	//Copy assignment
+    Vector &operator=(Vector &&);	    // Move assignment
+
+    friend std::ostream& operator<<(std::ostream &out, Vector<bool> &vec);
+
+    void set(int bit, bool value=true);
+    int getSize(){return bits;}     // No retorna realmente size, pero es lo que el usuario esperaria
+
+private:
+
+};
+
+// template<>
+Vector<bool>::Vector(int bits_) : v(new uint64_t[1+bits_/N]), bits(bits_), sz(1+bits_/N){
+    // for (int i = 0; i < bits; i++) {
+    //     v[i/(sz*N)] &= 0 << (i%(sz*N));
+    // }
+}
+
+Vector<bool>::~Vector(){
+    delete [] v;
+}
+
+Vector<bool>::Vector(const Vector<bool> &vec) : v(new uint64_t[vec.sz]), bits(vec.bits), sz(vec.sz){
+    std::cout << "Vector<bool> Copy constructor" << std::endl;
+
+    for(int i=0; i < vec.bits; i++)
+        set(i, vec.v[i/(sz*N)] >> (i%(sz*N)));
+}
+
+void Vector<bool>::set(int i, bool value){
+    if(value)
+        v[i/(sz*N)] |= 1 << (i % (sz*N));
+    else
+        v[i/(sz*N)] &= (1 << (i % (sz*N)));
+}
+
+
+
+
+std::ostream& operator<<(std::ostream &out, Vector<bool> &vec){
+    for(int i=0; i < vec.bits; i++){
+        out << ( vec.v[i/(vec.sz*N)] >> (i%(vec.sz*N)) ) % 2;
+    }
     return out;
 }
 
@@ -128,8 +195,23 @@ int main(int argc, const char** argv){
 
     vec4 = std::move(vec3); // Move assigment
 
-    std::cout << true << std::endl;
     
+
+    //////////////////////////////////////////////////////////
+    srand(time(NULL));
+    // srand(14);
+
+    Vector<bool> vec_b(10);
+
+    std::cout << vec_b << std::endl;
+    std::cout << vec_b.getSize() << std::endl;
+
+    for(int i=0; i<vec_b.getSize(); i++)
+        // vec_b.set(i, rand() % 2);
+        vec_b.set(i, 1);
+    
+    std::cout << vec_b << std::endl;
+
 
 
     return 0;
